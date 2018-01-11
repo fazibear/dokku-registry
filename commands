@@ -18,7 +18,7 @@ case "$1" in
     tar c . | dokku tar:in "$UUID"
     docker tag "dokku/$UUID" "$3"
     docker push "$3"
-    dokku delete "$UUID"
+    dokku --force apps:destroy "$UUID"
     rm -rf /home/dokku/checkout/"$UUID"
     ;;
 
