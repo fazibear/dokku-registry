@@ -12,15 +12,10 @@ case "$1" in
     mkdir -p /home/dokku/checkout
     cd /home/dokku/checkout
     UUID=$(uuidgen)
-    git clone "$2" "$UUID"
+    git clone --depth 1 "$2" "$UUID"
     cd "$UUID"
     dokku apps:create "$UUID"
-    if [[ -f "$UUID/Dockerfile" ]]; then
-      IMAGE_TYPE="dockerfile"
-    else
-      IMAGE_TYPE="herokuish"
-    fi
-    tar c . | dokku build "$UUID" "$IMAGE_TYPE"
+    tar c . | dokku tar:in "$UUID"
     docker tag "dokku/$UUID" "$3"
     docker push "$3"
     dokku delete "$UUID"
