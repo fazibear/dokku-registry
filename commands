@@ -11,7 +11,7 @@ case "$1" in
   registry:push)
     mkdir -p /home/dokku/checkout
     cd /home/dokku/checkout
-    UUID=$(uuidgen)
+    UUID=TMP-$(uuidgen)
     git clone --depth 1 "$2" "$UUID"
     cd "$UUID"
     dokku apps:create "$UUID"
